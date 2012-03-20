@@ -1,0 +1,5 @@
+{
+    "version": "0.0.1",
+    "name": "redis-pagecache",
+    "main": "./redis-pagecache.js"
+}
