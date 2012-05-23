@@ -11,7 +11,6 @@ PageCache.prototype.set = function(url, headers, body, cb) {
                     "body", body,
                     cb);
 
-    console.log("[redis-pagecache] STORE", url);
     var TTL = this.defaultTTL;
     if(headers["Cache-control"]) {
         var cacheControl = headers["Cache-control"];
@@ -21,7 +20,7 @@ PageCache.prototype.set = function(url, headers, body, cb) {
         }
     }
     this.redis.expire(this.prefix+url, TTL, function(err, reply){
-        console.log("[redis-pagecache] EXPIRE " + url, TTL, err, reply);
+        if(err) console.error("[redis-pagecache]", err);
     });
 };
 
@@ -34,7 +33,6 @@ PageCache.prototype.get = function(url, callback) {
         }
 
         if(reply && reply.headers && reply.body) {
-            console.log("[redis-pagecache] HIT", url);
             var headers = JSON.parse(reply.headers);
             headers["X-TextDrop-Pagecached"] = 1;
             return callback(headers, reply.body);
