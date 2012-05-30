@@ -25,7 +25,6 @@ PageCache.prototype.set = function(url, headers, body, cb) {
 };
 
 PageCache.prototype.get = function(url, callback) {
-    console.log("[redis-pagecache] GET", url);
     this.redis.hgetall(this.prefix+url, function(err, reply){
         if(err) {
             console.error("Page cache error", err);
